@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "DermaSense AI"
+description = "A privacy-first skin-lesion screening and care-planning prototype. It provides a guided image and history intake, transparent screening workflow, report and routine planner, while clearly identifying when a trained model is not available."
+version = "1.0.0"
+id = "artifacts/dermasense-ai"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23661
+
+[services.development]
+run = "pnpm --filter @workspace/dermasense-ai run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dermasense-ai", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/dermasense-ai/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23661"
+BASE_PATH = "/"
